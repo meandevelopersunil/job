@@ -47,11 +47,20 @@ app.get('/jobs/:jobtype',function(req,res){
 var jobtype=req.params.jobtype; //fetch the job string from the route
 var myArray=map.get(jobtype.toLowerCase()); // myArray contain array of skills corresponding particular type of job.  the given array contain multiple skills repeated no of times.
 //console.log(myArray);
-var c = myArray.reduce(function(a, b) {
+
+
+/*
+the reduce function going to map the skills set according to the number of times the given skill ocuur.
+eg:
+html:5
+php:4
+*/
+var c = myArray.reduce(function(a, b) {  
   a[b] = ++a[b] || 1;
   return a;
 }, {});
 var keys = Object.keys(c);
+//finally we arrange the most required skills first and return to the calling function in controller using res.send(result);
 var result= keys.sort(function(a, b) {
   if (c[a] < c[b]) {
     return 1;
