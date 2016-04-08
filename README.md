@@ -8,4 +8,4 @@ The hole Application hosted on <b>Heroku </b> at url <b>https://gentle-crag-2845
 <br>
 Our System recommed those skills first those been adopted by maximum no of users.
 <br>
-In order to help the user while entering the job, i use autoComplete reacommendation
+In order to help the user while entering the job, i also use autoComplete reacommendation
