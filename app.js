@@ -6,46 +6,52 @@ var jobs=fs.readFileSync('jobs.json');
 var jobs=JSON.parse(jobs);
 var map=new HashMap();
 var array=[];
+
+//here jobs contain all the element in the form of javaScript object
+// forEach function iterate through Every item of of jobs.
 jobs.forEach(function(arrayitem) {
 	// body...
 	role=arrayitem.role;
-	array.push(role);
+	array.push(role); // push the role  in array for searching purpose
 	role=role.toLowerCase();
-	if(map.get(role))
+	if(map.get(role)) //check if the same role already present in the map if yes, then append the skill set with given skill
 	{
-		var skills=[];
-		var skills=arrayitem.skills;
+		var skills=[]; 
+		var skills=arrayitem.skills; // 
 
-		map.set(role, map.get(role).concat(skills));
+		map.set(role, map.get(role).concat(skills)); // concat in previous skills of the same role
 	}
 	else
 	{
-		map.set(role,arrayitem.skills);
+		map.set(role,arrayitem.skills); // if this is for the first time, simply add the skill corresponding the new role.
 	}
 
 });
-
+// in order to remove the duplicate value out of the array of job roles.
 uniqueArray = array.filter(function(elem, pos) {
     return array.indexOf(elem) == pos;
 });
 
+
+// search route in order to set all the roles for autocomplete.
 app.get('/search',function(req,res) {
 	// body...
-res.send(uniqueArray);
+res.send(uniqueArray); 
 
 });
 
+
+// return the required skills set according to the job type.
+
 app.get('/jobs/:jobtype',function(req,res){
-var jobtype=req.params.jobtype;
-var myArray=map.get(jobtype.toLowerCase());
+var jobtype=req.params.jobtype; //fetch the job string from the route
+var myArray=map.get(jobtype.toLowerCase()); // myArray contain array of skills corresponding particular type of job.  the given array contain multiple skills repeated no of times.
 //console.log(myArray);
 var c = myArray.reduce(function(a, b) {
   a[b] = ++a[b] || 1;
   return a;
 }, {});
 var keys = Object.keys(c);
-
-
 var result= keys.sort(function(a, b) {
   if (c[a] < c[b]) {
     return 1;
